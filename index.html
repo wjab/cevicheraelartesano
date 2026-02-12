@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menú Restaurante Online</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ---------- ESTILOS GENERALES ---------- */
+    :root {
+      --color-primario: #ff4b2b;
+      --color-secundario: #ff416c;
+      --color-fondo: #0f172a;
+      --color-card: #111827;
+      --color-texto: #f9fafb;
+      --color-acento: #fbbf24;
+      --radius-card: 18px;
+      --shadow-card: 0 18px 40px rgba(0,0,0,0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000 100%);
+      color: var(--color-texto);
+      line-height: 1.4;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ---------- LAYOUT PRINCIPAL ---------- */
+    .hero {
+      min-height: 100vh;
+      padding: 32px 6vw 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(248, 113, 113, 0.18) 0, transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(96, 165, 250, 0.16) 0, transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.07) 0, transparent 55%);
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: conic-gradient(from 180deg, #f97316, #ec4899, #6366f1, #f97316);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-badge-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fbbf24;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pill {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 12px;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(18px);
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    .btn-primary {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(248, 113, 113, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(248, 113, 113, 0.55);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr);
+      gap: 32px;
+      align-items: flex-start;
+      margin-top: 10px;
+    }
+
+    /* ---------- TEXTO PRINCIPAL ---------- */
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 480px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e5e7eb;
+      backdrop-filter: blur(18px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #f97316, #facc15);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: #e5e7eb;
+      max-width: 420px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .hero-meta strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    /* ---------- NAVEGACIÓN DE CATEGORÍAS ---------- */
+    .categories-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .category-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 12px;
+      cursor: pointer;
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s ease;
+      backdrop-filter: blur(18px);
+    }
+
+    .category-pill span {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+    }
+
+    .category-pill.active {
+      border-color: rgba(248, 250, 252, 0.95);
+      background: linear-gradient(135deg, rgba(248, 113, 113, 0.15), rgba(251, 191, 36, 0.08));
+    }
+
+    .category-pill:hover {
+      transform: translateY(-1px);
+    }
+
+    /* ---------- GRID DEL MENÚ ---------- */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ---------- TARJETA DE SECCIÓN (COLUMNA) ---------- */
+    .menu-column {
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.15), transparent 60%);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .menu-column-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .menu-column-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .menu-column-title span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+
+    .menu-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #e5e7eb;
+    }
+
+    .menu-tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97316;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: auto;
+      overflow: hidden;
+    }
+
+    /* ---------- TARJETA INDIVIDUAL PLATO ---------- */
+    .menu-item {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 10px;
+      padding: 8px;
+      border-radius: var(--radius-card);
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease, background 0.16s ease;
+    }
+
+    .menu-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(248, 113, 113, 0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      pointer-events: none;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(248, 250, 252, 0.85);
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 22px 50px rgba(15, 23, 42, 0.95);
+    }
+
+    .menu-item:hover::before {
+      opacity: 1;
+    }
+
+    .menu-item-img {
+      width: 130px;
+      height:130px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      background: #020617;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+    }
+
+    .menu-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .menu-item-badge {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(248, 250, 252, 0.85);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #facc15;
+      backdrop-filter: blur(18px);
+    }
+
+    .menu-item-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .menu-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .menu-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .menu-item-price {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-acento);
+    }
+
+    .menu-item-desc {
+      font-size: 12px;
+      color: #9ca3af;
+      max-height: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    .menu-item-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: #10b981;
+    }
+
+    /* ---------- FOOTER PEQUEÑO ---------- */
+    .hero-footer {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-footer span::before {
+      content: "•";
+      color: #4b5563;
+    }
+
+    .hero-footer span:first-child::before {
+      content: "";
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-copy {
+        max-width: none;
+      }
+      .hero {
+        padding: 20px 4vw 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <!-- SOLO EL MENÚ GRÁFICO EN GRID -->
+    <section class="menu-grid">
+	
+      <!-- 1. CEVICHES -->
+      <article class="menu-column" id="ceviches">
+        <header class="menu-column-header">
+          <div class="menu-column-title">
+            Ceviches
+            <span>01</span>
+          </div>
+          <div class="menu-tag">
+            <div class="menu-tag-dot"></div>
+            Fríos, cítricos, frescos
+          </div>
+        </header>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://static.guiainfantil.com/pictures/recetas2/12000/12727-ceviche-de-pescado-para-ninos-recetas-peruanas.jpg" alt="Ceviche clásico de pescado" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Ceviche Clásico de Pescado</div>
+                <div class="menu-item-price">Desde ₡3500</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto:
+				<br>
+				8oz - ₡ 3500
+				<br>
+				16oz - ₡ 5500
+				<br>
+				16oz - ₡ 7000
+				<br>
+				24oz - ₡10000
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> 200 g por porción</span>
+                <span>Listo en 4 min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://media-cdn.tripadvisor.com/media/photo-s/13/d1/cf/c7/ceviche-made-with-fresh.jpg" alt="Ceviche tropical" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Ceviche Costeño</div>
+                <div class="menu-item-price">Desde ₡3500</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón, mayonesa, palmito. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto.
+				<br>
+				8oz - ₡ 3500
+				<br>
+				16oz - ₡ 5500
+				<br>
+				16oz - ₡ 7000
+				<br>
+				24oz - ₡10000
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Dulce & ácido</span>
+                <span>Ideal para compartir</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://i.ytimg.com/vi/iC6qFEjBzD8/maxresdefault.jpg" alt="Ceviche mixto" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Ceviche Mixto</div>
+                <div class="menu-item-price">Desde ₡4000</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón y deliciosos camarones. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto.
+				<br>
+				8oz - ₡ 4000
+				<br>
+				16oz - ₡ 6000
+				<br>
+				16oz - ₡ 7500
+				<br>
+				24oz - ₡10000
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Mariscos</span>
+                <span>Picante opcional</span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/633775928_122153272820950570_8113191843301531464_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=NHoe9hBfWREQ7kNvwELLq6k&_nc_oc=AdnPVttoQhikWgGl2PaSvp-7jKQuxpjpdQtRvD5yiDQEI0A9hEQLX7khIbhjRMDLTOk&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=mnYSl4sbf9flJFYuUDbTFg&oh=00_AftxWNU3WQa2ktgCfIWUAwf_5Zq9kqBbII9XENX3JgBFIw&oe=6993C204" alt="Ceviche mixto" />
+              <div class="menu-item-badge">Nuevo</div>
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Cóctel de Camarones</div>
+                <div class="menu-item-price">₡5000</div>
+              </div>
+              <p class="menu-item-desc">
+                Deliciosos camarones, marinados en jugo de limón y mezclados con tomate y pepino picado más una salsa picante medio formando una explosión de sabor.
+				Lo tenemos en una presentación de vaso de 20 onzas por solo 5000 colones.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Mariscos</span>
+                <span>Picante opcional</span>
+              </div>
+            </div>
+          </div>
+        
+		  <div class="menu-item" style="display:none">
+            <div class="menu-item-img">
+              <img src="https://images.pexels.com/photos/8478057/pexels-photo-8478057.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ceviche tropical" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Ceviche Tropical</div>
+                <div class="menu-item-price">₡3500</div>
+              </div>
+              <p class="menu-item-desc">
+                Pescado marinado con piña, mango, pepino y toque de jengibre, servido con chips de plátano.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Dulce & ácido</span>
+                <span>Ideal para compartir</span>
+              </div>
+            </div>
+          </div>
+		
+		</div>
+      </article>
+
+      <!-- 2. CALDOSAS -->
+      <article class="menu-column" id="caldosas">
+        <header class="menu-column-header">
+          <div class="menu-column-title">
+            Caldosas
+            <span>02</span>
+          </div>
+          <div class="menu-tag">
+            <div class="menu-tag-dot"></div>
+            Fríos, cítricos, frescos, tostadas
+          </div>
+        </header>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://static.guiainfantil.com/pictures/recetas2/12000/12727-ceviche-de-pescado-para-ninos-recetas-peruanas.jpg" alt="Ceviche clásico de pescado" />
+              <div class="menu-item-badge">Nuevo</div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Caldosa Clásica de Pescado</div>
+                <div class="menu-item-price">Desde ₡1500</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto:
+				<br>
+				Bolsa - ₡ 1500
+				<br>
+				16oz  - ₡ 2500
+				<br>
+				20oz  - ₡ 3000
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>porción</span>
+                <span>Listo en 4 min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://media-cdn.tripadvisor.com/media/photo-s/13/d1/cf/c7/ceviche-made-with-fresh.jpg" alt="Ceviche tropical" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Caldosa Costeño</div>
+                <div class="menu-item-price">Desde ₡1500</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón, mayonesa, palmito. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto.
+				<br>
+				Bolsa - ₡ 1500
+				<br>
+				16oz  - ₡ 1500
+				<br>
+				20oz  - ₡ 3000
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Dulce & ácido</span>
+                <span>Ideal para compartir</span>
+              </div>
+            </div>
+          </div>
+
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://i.ytimg.com/vi/iC6qFEjBzD8/maxresdefault.jpg" alt="Ceviche mixto" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Caldosa Mixta</div>
+                <div class="menu-item-price">Desde ₡1700</div>
+              </div>
+              <p class="menu-item-desc">
+                Cubos de pescado blanco, jugo de limón y deliciosos camarones. Se le pueden agregar dos ingredientes adicionales.
+				Hay diferentes tamaños según el gusto.
+				<br>
+				Bolsa - ₡ 1700
+				<br>
+				16oz  - ₡ 3000
+				<br>
+				20oz  - ₡ 3500
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Mariscos</span>
+                <span>Picante opcional</span>
+              </div>
+            </div>
+          </div>
+		</div>
+      </article>
+
+      <!-- 3. CAFÉ -->
+      <article class="menu-column" id="cafe">
+        <header class="menu-column-header">
+          <div class="menu-column-title">
+            Café y Dulcería para ese cierre perfecto
+            <span>03</span>
+          </div>
+          <div class="menu-tag">
+            <div class="menu-tag-dot"></div>
+            Café de altura 100% costarricense.
+          </div>
+        </header>
+        <div class="menu-items">
+		
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://images.pexels.com/photos/894695/pexels-photo-894695.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Café negro" />
+              <div class="menu-item-badge"></div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Café Americano</div>
+                <div class="menu-item-price">₡1100</div>
+              </div>
+              <p class="menu-item-desc">
+                Café chorreado de grano 100% arábica, tostado medio, perfecto para cualquier hora del día. Le puedes agregar leche por ₡200.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Taza 240 ml</span>
+                <span>Sin azúcar por defecto</span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://www.shutterstock.com/image-photo/cappuccino-craft-paper-glass-on-600nw-2501030423.jpg" alt="Café Capuchino" />
+              <div class="menu-item-badge">Nuevo</div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Capuchino Cremoso</div>
+                <div class="menu-item-price">₡1350</div>
+              </div>
+              <p class="menu-item-desc">
+                Espresso doble con leche vaporizada y espuma suave, decorado con cacao.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Taza 240 ml</span>
+                <span>Sin azúcar por defecto</span>
+              </div>
+            </div>
+          </div>
+			  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://www.shutterstock.com/image-photo/cappuccino-craft-paper-glass-on-600nw-2501030423.jpg" alt="Café Capuchino Vainilla" />
+              <div class="menu-item-badge">Nuevo</div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Capuchino Cremoso Vainilla</div>
+                <div class="menu-item-price">₡1350</div>
+              </div>
+              <p class="menu-item-desc">
+                Espresso doble con leche vaporizada y espuma suave, decorado con cacao.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Espresso doble</span>
+                <span>Sin azúcar por defecto</span>
+              </div>
+            </div>
+          </div>
+		  		 
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://alba-cr-repretel.cdn.mediatiquepress.com/wp-content/uploads/2025/10/NED-NICOLE-2025-10-08T110941.207.jpg" alt="Prestiños" />
+              <div class="menu-item-badge">Prestiños</div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Deliciosos prestiños</div>
+                <div class="menu-item-price">₡1300</div>
+              </div>
+              <p class="menu-item-desc">
+                Elaborados con una receta receta de la casa, en cada bocado un dulce sabor.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>3 Porciones por bolsa</span>
+                <span>Muy dulce</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://i0.wp.com/www.gluuhandmade.com/wp-content/uploads/2021/03/dulces.jpg" alt="Palomitas" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Palomitas</div>
+                <div class="menu-item-price">₡1 800</div>
+              </div>
+              <p class="menu-item-desc">
+                Presentación en diferentes sabores, están buenísimas.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Dulce</span>
+                <span>Ideal para compartir</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item" style="display:none">
+            <div class="menu-item-img">
+              <img src="https://images.pexels.com/photos/4109993/pexels-photo-4109993.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Brownie caliente" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Brownie Caliente</div>
+                <div class="menu-item-price">₡2 500</div>
+              </div>
+              <p class="menu-item-desc">
+                Brownie de chocolate oscuro servido tibio, con helado de vainilla.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Intenso</span>
+                <span>Comparte o repite</span>
+              </div>
+            </div>
+          </div>
+        
+          <div class="menu-item" style="display:none">
+            <div style="menu-item-img" >
+              <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Café frío" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Cold Brew de Casa</div>
+                <div class="menu-item-price">₡2 300</div>
+              </div>
+              <p class="menu-item-desc">
+                Café infusionado en frío por 16 horas, servido con hielo y nota suave a chocolate.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Refrescante</span>
+                <span>Opción con leche</span>
+              </div>
+            </div>
+          </div>
+		  
+        </div>
+      </article>
+
+      <!-- 4. ADICIONALES -->
+      <article class="menu-column" id="adicionales">
+        <header class="menu-column-header">
+          <div class="menu-column-title">
+            Adicionales
+            <span>04</span>
+          </div>
+          <div class="menu-tag">
+            <div class="menu-tag-dot"></div>
+            Para completar tu Ceviche
+          </div>
+        </header>
+		
+		<div class="menu-items">
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/634724211_122153276546950570_632677170518799525_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=glojO7b9gVMQ7kNvwHuub0r&_nc_oc=Adl89X_mCkaArTONItA7wf5rnFZkqXVzGGev1wH8UpzzwVg8GygQO3UDyPpe-SlOwKw&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=lxmDl9NiGNFKAgJMEPgldA&oh=00_AftU5E6hhoUqo03PJ-g7rrFhUSmOdIYhcL20N1or7Yzseg&oe=6993FA0F" alt="Tostadas de maíz" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Aguacate</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Tomate cortado cuidadosamente en pequeños cuadritos.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+        <div class="menu-items">
+		
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/634205616_122153276522950570_3146905239526691644_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=VKEmppVps0wQ7kNvwHXIv1w&_nc_oc=AdkGJioVLRHJHqpyPBZ7AzSdk_6GMmg5daFLFnBYNGiXVUE2zPlzcgBPOo_WhK2PXe4&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=9Tljljh96zHKH3W6f_1kZA&oh=00_AftaGYBkv5O7CE5UT9kuqbi0qqCOJGUVHy-UpvrGP_tR5A&oe=6993F4C0" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Jalapeño</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Rodajas de chile Jalapeño para dar ese picantito que tanto te gusta.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Tomate en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/632472873_122153276402950570_7601769395008872349_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=jhGIR7oLQIcQ7kNvwFujlG0&_nc_oc=AdnkItKTFlN-vjY2WzGJUzWoN5PTehkWM2bXtAbA7XXzaFXX0-JkWrUnDQQJNGdr7F8&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=6dEeda5HLLZB4DNmTm57sg&oh=00_AfvQJ3gQ2mNyxwT6z8SpjsG-5zJg6bxwQVOGb1Iuo7e7uw&oe=6993F8F5" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Cebolla Morada</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Trocitos o rebanadas de cebolla morada para darle un sasón adicional a tu Ceviche.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Tomate en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/632756253_122153276618950570_4396541383079450816_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=gRpgVwx_6PIQ7kNvwGRV1iw&_nc_oc=AdkEM3l-Hxs-HMkh60xkBEcRRZYxxpcQyaFqVBgShU6gfYQBgGGxHgV1w3sUuCWcVxY&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=2SfSIVIuyC0Qe0BHRsOobg&oh=00_Aftj7s7x3rgVTV733S0EK0VyyELCRg6BUmj_NQqTzQxGpA&oe=6993F486" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Trocitos de Piña</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Trocitos de Piña le dan un sabor cítrico inimaginable al Ceviche.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Tomate en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/632788319_122153276378950570_8124482554538967142_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=jUJ-nhBGkKoQ7kNvwEBSOJ8&_nc_oc=AdlZqrq9xvkHFaCIpMboEIFt-2nfiXbDIYoUYrNx3mLmzg941DKEYMLtBgj8jo-u6YY&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=z_2LDcCywbNUmyJ43ANYcA&oh=00_Afvcc1xEv9WF9OlYeLJfxAJUd9TijqYjve-W7PAOk_pOiQ&oe=6993F8AA" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Sangrita</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Salsa dulce picante que te hace la boca agua.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Tomate en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/631951153_122153276612950570_5702863207826124760_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0YXqeFco7nYQ7kNvwHZUEmY&_nc_oc=AdkXE0M7JbNtCNrRARKMzNMvQAvQn6EqQWHGVFSsKsTUKN7HG8s2iAIRGSHEMZEi5xQ&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=3TBYwDKJXWWFjVj5rTca3w&oh=00_AfsMlKM-7Z8fMRzDIXKr968Oa0_Ell46fL29BFV9u9Gwgw&oe=6993CBB8" alt="Tostadas de maíz" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Maíz Frito</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Elotitos crocantes ideales para acompañar tus ceviches o caldosas.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span></span>
+                <span>Sin gluten</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/632620388_122153276474950570_4325362343163108810_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=nzHPdz2CSr8Q7kNvwGhM-J6&_nc_oc=AdmFBjLVJ4hdjcmaTHYM_c-d9kErV2PmmNx7srp9N_YJKfS28budmCSGxYVU-HCQGg0&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=QcbWcH2ziN9a8P2gbzzKLA&oh=00_Afvjh9k0c0JaPWdqKz5uXKU9f-QsVPNR52FDOBFUobcvgg&oe=6993FB40" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Tomate en trozos</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Tomate cortado cuidadosamente en pequeños trozos.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Tomate en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+		  <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://scontent.fsjo17-1.fna.fbcdn.net/v/t39.30808-6/633852975_122153276450950570_5326955635722554346_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Arg85Q-6ubsQ7kNvwGmnJSX&_nc_oc=AdkjjnQin-SYTqtR2b7kj8603LzB7KW65pJ8CZuAJzqq88Ht71xgz2NzPMqHT20jSjc&_nc_zt=23&_nc_ht=scontent.fsjo17-1.fna&_nc_gid=3iGfp36cF0ZWo2MWOSRfww&oh=00_AftPZsfktFSDQIx0mdICl4bPflkese3eNp8qO8uJeSTXhw&oe=6993D64A" alt="Pico de gallo" />
+			</div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Pepino en trozos</div>
+                <div class="menu-item-price">₡300</div>
+              </div>
+              <p class="menu-item-desc">
+                Pepino cortado cuidadosamente en pequeños trozos.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Pepino en trozos</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+		  
+        </div>
+      </article>
+
+      <!-- 5. DULCERÍA -->
+      <article class="menu-column" style="display:none" id="dulceria">
+        <header class="menu-column-header">
+          <div class="menu-column-title">
+            Dulcería
+            <span>05</span>
+          </div>
+          <div class="menu-tag">
+            <div class="menu-tag-dot"></div>
+            Cierre perfecto
+          </div>
+        </header>
+        <div class="menu-items">
+		
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://alba-cr-repretel.cdn.mediatiquepress.com/wp-content/uploads/2025/10/NED-NICOLE-2025-10-08T110941.207.jpg" alt="Prestiños" />
+              <div class="menu-item-badge">Prestiños</div>
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Deliciosos prestiños</div>
+                <div class="menu-item-price">₡1300</div>
+              </div>
+              <p class="menu-item-desc">
+                Elaborados con una receta receta de la casa, en cada bocado un dulce sabor.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>3 Porciones por bolsa</span>
+                <span>Muy dulce</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-item-img">
+              <img src="https://i0.wp.com/www.gluuhandmade.com/wp-content/uploads/2021/03/dulces.jpg" alt="Palomitas" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Palomitas</div>
+                <div class="menu-item-price">₡1 800</div>
+              </div>
+              <p class="menu-item-desc">
+                Presentación en diferentes sabores, están buenísimas.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span>Dulce</span>
+                <span>Ideal para compartir</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item" style="display:none">
+            <div class="menu-item-img">
+              <img src="https://images.pexels.com/photos/4109993/pexels-photo-4109993.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Brownie caliente" />
+            </div>
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-title">Brownie Caliente</div>
+                <div class="menu-item-price">₡2 500</div>
+              </div>
+              <p class="menu-item-desc">
+                Brownie de chocolate oscuro servido tibio, con helado de vainilla.
+              </p>
+              <div class="menu-item-meta">
+                <span><span class="dot"></span> Intenso</span>
+                <span>Comparte o repite</span>
+              </div>
+            </div>
+          </div>
+        
+		</div>
+      </article>
+    </section>
+  </main>
+</body>
+
+</html>
